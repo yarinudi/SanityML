@@ -18,10 +18,10 @@ from oscpy.server import OSCThreadServer
 from plyer import accelerometer
 from multiprocessing.dummy import Process
 
-SERVICE_NAME = u'{packagename}.Service{servicename}'.format(
-    packagename=u'org.kivy.oscservice',
-    servicename=u'Pong'
-)
+# SERVICE_NAME = u'{packagename}.Service{servicename}'.format(
+#     packagename=u'org.kivy.oscservice',
+#     servicename=u'Pong'
+# )
 
 KV = '''
 BoxLayout:
@@ -52,31 +52,37 @@ class ClientServerApp(App):
         self.root = Builder.load_string(KV)
         return self.root
 
-    def start_service(self):
-        if platform == 'android':
-            print('Starting service...')
-            service = autoclass(SERVICE_NAME)
-            self.mActivity = autoclass(u'org.kivy.android.PythonActivity').mActivity
-            argument = ''
-            service.start(self.mActivity, argument)
-            self.service = service
-            Process(target=self.init_sensors()).start()
+    def on_start(self):
+        from kivy import platform
+        if platform == "android":
+            self.start_service()
+        Process(target=self.init_sensors).start()
 
-            # start sensors
-            self.user_id = str(uuid.uuid1())
-            print('Current User ID: ', self.user_id)
-
-            # write uid to txt file
-            with open('data.txt', mode='a') as f:
-                f.writelines(f"{self.user_id}\n\n")
-                print("ADDED uid!")
-
-            self.init_sensors()
-
-        else:
-            raise NotImplementedError(
-                "service start not implemented on this platform"
-            )
+    # def start_service(self):
+    #     if platform == 'android':
+    #         print('Starting service...')
+    #         service = autoclass(SERVICE_NAME)
+    #         self.mActivity = autoclass(u'org.kivy.android.PythonActivity').mActivity
+    #         argument = ''
+    #         service.start(self.mActivity, argument)
+    #         self.service = service
+    #         Process(target=self.init_sensors()).start()
+    #
+    #         # start sensors
+    #         self.user_id = str(uuid.uuid1())
+    #         print('Current User ID: ', self.user_id)
+    #
+    #         # write uid to txt file
+    #         with open('data.txt', mode='a') as f:
+    #             f.writelines(f"{self.user_id}\n\n")
+    #             print("ADDED uid!")
+    #
+    #         self.init_sensors()
+    #
+    #     else:
+    #         raise NotImplementedError(
+    #             "service start not implemented on this platform"
+    #         )
 
     def init_sensors(self):
         """ setup sensors """
@@ -117,6 +123,14 @@ class ClientServerApp(App):
         with open('data.txt', mode='a') as f:
             f.writelines(f"{date_time}, {data}\n")
             print(f"ADDED sensors data! \n {date_time}, {data}\n")
+
+    @staticmethod
+    def start_service():
+        from jnius import autoclass
+        service = autoclass("org.kivy.oscservice.ServicePong")
+        mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
+        service.start(mActivity, "")
+        return service
 
 
 if __name__ == '__main__':
