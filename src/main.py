@@ -55,23 +55,6 @@ BoxLayout:
 
 
 class ClientServerApp(App):
-    # def __init__(self):
-    #     # self.mActivity = None
-    #     # self.root = None
-    #     # self.client = None
-    #     # self.server = None
-    #     # self.service = None
-    #
-    #     # self.user_id = str(uuid.uuid1())
-    #     # print('Current User ID: ', self.user_id)
-    #     #
-    #     # # write uid to txt file
-    #     # with open('data.txt', mode='a') as f:
-    #     #     f.writelines(f"{self.user_id}\n\n")
-    #     #     print("ADDED uid!")
-    #     #
-    #     # self.init_sensors()
-    #     # self.email()
 
     def build(self):
         self.service = None
@@ -129,6 +112,7 @@ class ClientServerApp(App):
 
     def send(self, *args):
         self.client.send_message(b'/ping', [])
+        self.email()
 
     def display_message(self, message):
         if self.root:
@@ -148,7 +132,7 @@ class ClientServerApp(App):
             print('cant enable accelerometer')
 
         # setup timer to update sensors
-        Clock.schedule_interval(self.save_sensors, 1.0/60.0)
+        Clock.schedule_interval(self.save_sensors, 10.0/60.0)
 
     def save_sensors(self, dt):
         """ write sensors' data to txt file """
@@ -176,13 +160,13 @@ class ClientServerApp(App):
 
         with open('data.txt', mode='a') as f:
             f.writelines(f"{date_time}, {data}\n")
-            print("ADDED sensors data!")
+            print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
-    # def email(self):
-    #     try:
-    #         email.send(recipient='yarin1997udi@gmail.com', subject='Thanks!', text='Enjoyed your lesson')
-    #     except:
-    #         print('cant email')
+    def email(self):
+        try:
+            email.send(recipient='yarin1997udi@gmail.com', subject='Thanks!', text='Enjoyed your lesson')
+        except:
+            print('cant email')
 
 
 if __name__ == '__main__':
