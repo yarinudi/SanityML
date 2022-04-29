@@ -32,26 +32,6 @@ BoxLayout:
         Button:
             text: 'start service'
             on_press: app.start_service()
-
-    ScrollView:
-        Label:
-            id: label
-            size_hint_y: None
-            height: self.texture_size[1]
-            text_size: self.size[0], None
-
-    BoxLayout:
-        size_hint_y: None
-        height: '30sp'
-        Button:
-            text: 'ping'
-            on_press: app.send()
-        Button:
-            text: 'clear'
-            on_press: label.text = ''
-        Label:
-            id: date
-
 '''
 
 
