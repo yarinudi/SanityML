@@ -48,9 +48,6 @@ class ClientServerApp(App):
             default=True,
         )
 
-        server.bind(b'/message', self.display_message)
-        server.bind(b'/date', self.date)
-
         self.client = OSCClient(b'localhost', 3000)
         self.root = Builder.load_string(KV)
         return self.root
