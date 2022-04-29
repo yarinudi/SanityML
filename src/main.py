@@ -136,5 +136,4 @@ class ClientServerApp(App):
         return service
 
 
-if __name__ == '__main__':
-    ClientServerApp().run()
+ClientServerApp().run()
