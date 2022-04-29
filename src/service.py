@@ -1,7 +1,7 @@
 """p4a service using oscpy to communicate with main application."""
 from random import sample, randint
 from string import ascii_letters
-from time import localtime, asctime, sleep
+from time import sleep
 
 from oscpy.server import OSCThreadServer
 from oscpy.client import OSCClient
@@ -20,18 +20,10 @@ def ping(*_):
     )
 
 
-def send_date():
-    """send date to the application"""
-    CLIENT.send_message(
-        b'/date',
-        [asctime(localtime()).encode('utf8'), ],
-    )
-
-
 if __name__ == '__main__':
     SERVER = OSCThreadServer()
     SERVER.listen('localhost', port=3000, default=True)
     SERVER.bind(b'/ping', ping)
     while True:
+        print("service running.....")
         sleep(1)
-        send_date()

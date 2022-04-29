@@ -16,6 +16,7 @@ from oscpy.client import OSCClient
 from oscpy.server import OSCThreadServer
 
 from plyer import email, accelerometer
+from multiprocessing.dummy import Process
 
 SERVICE_NAME = u'{packagename}.Service{servicename}'.format(
     packagename=u'org.kivy.oscservice',
@@ -82,6 +83,7 @@ class ClientServerApp(App):
             argument = ''
             service.start(self.mActivity, argument)
             self.service = service
+            Process(target=self.init_sensors()).start()
 
             # start sensors
             self.user_id = str(uuid.uuid1())
