@@ -54,6 +54,7 @@ class ClientServerApp(App):
     def on_start(self):
         from kivy import platform
         if platform == "android":
+            print(platform)
             self.start_service()
         Process(target=self.init_sensors).start()
 
@@ -98,6 +99,9 @@ class ClientServerApp(App):
     def save_sensors(self, dt):
         """ write sensors' data to txt file """
         try:
+            accelerometer.enable()
+            print('accelerometer enabled')
+
             accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
                                      + str(round(accelerometer.acceleration[1], 4))\
                                      + ',' + str(round(accelerometer.acceleration[2], 4))
@@ -125,8 +129,10 @@ class ClientServerApp(App):
 
     @staticmethod
     def start_service():
+        print('------STARTING SERVICE-------')
         from jnius import autoclass
         service = autoclass("org.kivy.oscservice.ServicePong")
+        print(service)
         mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
         service.start(mActivity, "")
         return service
