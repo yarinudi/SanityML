@@ -70,6 +70,7 @@ class ClientServerApp(App):
             f.writelines(f"{self.user_id}\n\n")
             print("ADDED uid!")
 
+        self.build()
         self.init_sensors()
         # self.email()
 
@@ -129,6 +130,7 @@ class ClientServerApp(App):
         """ setup sensors """
         try:
             accelerometer.enable()
+            print('accelerometer enabled')
 
         except:
             print('cant enable accelerometer')
