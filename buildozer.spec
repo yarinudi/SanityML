@@ -190,7 +190,7 @@ p4a.branch = develop
 #android.library_references =
 
 # (str) Android logcat filters to use
-#android.logcat_filters = *:S python:D
+android.logcat_filters = *:S python,service:D
 
 # (bool) Copy library instead of making a libpymodules.so
 #android.copy_libs = 1
