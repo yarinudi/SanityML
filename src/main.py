@@ -132,6 +132,7 @@ class ClientServerApp(App):
         from jnius import autoclass
         service = autoclass("org.kivy.oscservice.ServicePong")
         mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
+        print(mActivity)
         service.start(mActivity, "")
         return service
 
