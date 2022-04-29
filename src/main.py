@@ -1,4 +1,3 @@
-# coding: utf8
 __version__ = '0.2'
 
 import os
@@ -37,20 +36,20 @@ BoxLayout:
 
 class ClientServerApp(App):
 
-    def build(self):
-        self.service = None
-        self.start_service()
-
-        self.server = server = OSCThreadServer()
-        server.listen(
-            address=b'localhost',
-            port=3002,
-            default=True,
-        )
-
-        self.client = OSCClient(b'localhost', 3000)
-        self.root = Builder.load_string(KV)
-        return self.root
+    # def build(self):
+    #     self.service = None
+    #     self.start_service()
+    #
+    #     self.server = server = OSCThreadServer()
+    #     server.listen(
+    #         address=b'localhost',
+    #         port=3002,
+    #         default=True,
+    #     )
+    #
+    #     self.client = OSCClient(b'localhost', 3000)
+    #     self.root = Builder.load_string(KV)
+    #     return self.root
 
     def on_start(self):
         from kivy import platform

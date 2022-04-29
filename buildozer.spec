@@ -89,7 +89,7 @@ fullscreen = 0
 android.permissions = INTERNET
 
 # (int) Android API to use
-#android.api = 28
+android.api = 30
 
 # (int) Minimum API required. You will need to set the android.ndk.api to be as low as this value.
 #android.minapi = 21
@@ -157,7 +157,7 @@ android.accept_sdk_license = True
 #android.add_activites = com.example.ExampleActivity
 
 # (str) python-for-android branch to use, defaults to stable
-p4a.branch = master
+p4a.branch = develop
 
 # (str) OUYA Console category. Should be one of GAME or APP
 # If you leave this blank, OUYA support will not be enabled
@@ -196,7 +196,7 @@ android.logcat_filters = *:S python:D
 #android.copy_libs = 1
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
-android.arch = armeabi-v7a
+android.arch = arm64-v8a
 
 #
 # Python for android (p4a) specific
