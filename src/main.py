@@ -55,23 +55,23 @@ BoxLayout:
 
 
 class ClientServerApp(App):
-    def __init__(self):
-        # self.mActivity = None
-        # self.root = None
-        # self.client = None
-        # self.server = None
-        # self.service = None
-
-        self.user_id = str(uuid.uuid1())
-        print('Current User ID: ', self.user_id)
-
-        # write uid to txt file
-        with open('data.txt', mode='a') as f:
-            f.writelines(f"{self.user_id}\n\n")
-            print("ADDED uid!")
-
-        self.init_sensors()
-        # self.email()
+    # def __init__(self):
+    #     # self.mActivity = None
+    #     # self.root = None
+    #     # self.client = None
+    #     # self.server = None
+    #     # self.service = None
+    #
+    #     # self.user_id = str(uuid.uuid1())
+    #     # print('Current User ID: ', self.user_id)
+    #     #
+    #     # # write uid to txt file
+    #     # with open('data.txt', mode='a') as f:
+    #     #     f.writelines(f"{self.user_id}\n\n")
+    #     #     print("ADDED uid!")
+    #     #
+    #     # self.init_sensors()
+    #     # self.email()
 
     def build(self):
         self.service = None
@@ -93,11 +93,24 @@ class ClientServerApp(App):
 
     def start_service(self):
         if platform == 'android':
+            print('Starting service...')
             service = autoclass(SERVICE_NAME)
             self.mActivity = autoclass(u'org.kivy.android.PythonActivity').mActivity
             argument = ''
             service.start(self.mActivity, argument)
             self.service = service
+
+            # start sensors
+            self.user_id = str(uuid.uuid1())
+            print('Current User ID: ', self.user_id)
+
+            # write uid to txt file
+            with open('data.txt', mode='a') as f:
+                f.writelines(f"{self.user_id}\n\n")
+                print("ADDED uid!")
+
+            self.init_sensors()
+            print('Started service successfully !')
 
         elif platform in ('linux', 'linux2', 'macos', 'win'):
             from runpy import run_path
