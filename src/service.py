@@ -3,6 +3,8 @@ from random import sample, randint
 from string import ascii_letters
 from time import sleep
 
+from jnius import autoclass
+
 from oscpy.server import OSCThreadServer
 from oscpy.client import OSCClient
 
@@ -20,10 +22,19 @@ def ping(*_):
     )
 
 
-if __name__ == '__main__':
-    SERVER = OSCThreadServer()
-    SERVER.listen('localhost', port=3000, default=True)
-    SERVER.bind(b'/ping', ping)
-    while True:
-        print("service running.....")
-        sleep(1)
+SERVER = OSCThreadServer()
+SERVER.listen('localhost', port=3000, default=True)
+SERVER.bind(b'/ping', ping)
+while True:
+    print("service running.....")
+    sleep(1)
+
+
+#
+# PythonService = autoclass('org.kivy.android.PythonService')
+# PythonService.mService.setAutoRestartService(True)
+#
+#
+# while True:
+#     print("service running.....")
+#     sleep(5)
