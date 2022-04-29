@@ -85,19 +85,22 @@ class ClientServerApp(App):
 
     def init_sensors(self):
         """ setup sensors """
-        try:
-            accelerometer.enable()
-            print('accelerometer enabled')
-
-        except:
-            print('cant enable accelerometer')
+        # try:
+        #     accelerometer.enable()
+        #     print('accelerometer enabled')
+        #
+        # except:
+        #     print('cant enable accelerometer')
 
         # setup timer to update sensors
-        Clock.schedule_interval(self.save_sensors, 10.0/60.0)
+        Clock.schedule_interval(self.save_sensors, 30.0/60.0)
 
     def save_sensors(self, dt):
         """ write sensors' data to txt file """
         try:
+            accelerometer.enable()
+            print('accelerometer enabled')
+
             accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
                                      + str(round(accelerometer.acceleration[1], 4))\
                                      + ',' + str(round(accelerometer.acceleration[2], 4))
