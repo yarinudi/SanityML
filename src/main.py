@@ -58,7 +58,7 @@ class ClientServerApp(App):
 
     def build(self):
         self.service = None
-        # self.start_service()
+        self.start_service()
 
         self.server = server = OSCThreadServer()
         server.listen(
@@ -95,16 +95,6 @@ class ClientServerApp(App):
             self.init_sensors()
             print('Started service successfully !')
 
-        elif platform in ('linux', 'linux2', 'macos', 'win'):
-            from runpy import run_path
-            from threading import Thread
-            self.service = Thread(
-                target=run_path,
-                args=['src/service.py'],
-                kwargs={'run_name': '__main__'},
-                daemon=True
-            )
-            self.service.start()
         else:
             raise NotImplementedError(
                 "service start not implemented on this platform"
