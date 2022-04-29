@@ -1,6 +1,10 @@
 # coding: utf8
 __version__ = '0.2'
 
+import os
+import uuid
+from datetime import datetime
+
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.clock import Clock
@@ -11,6 +15,7 @@ from jnius import autoclass
 from oscpy.client import OSCClient
 from oscpy.server import OSCThreadServer
 
+from plyer import email, accelerometer
 
 SERVICE_NAME = u'{packagename}.Service{servicename}'.format(
     packagename=u'org.kivy.oscservice',
@@ -26,9 +31,6 @@ BoxLayout:
         Button:
             text: 'start service'
             on_press: app.start_service()
-        Button:
-            text: 'stop service'
-            on_press: app.stop_service()
 
     ScrollView:
         Label:
@@ -51,7 +53,26 @@ BoxLayout:
 
 '''
 
+
 class ClientServerApp(App):
+    def __init__(self):
+        # self.mActivity = None
+        # self.root = None
+        # self.client = None
+        # self.server = None
+        # self.service = None
+
+        self.user_id = str(uuid.uuid1())
+        print('Current User ID: ', self.user_id)
+
+        # write uid to txt file
+        with open('data.txt', mode='a') as f:
+            f.writelines(f"{self.user_id}\n\n")
+            print("ADDED uid!")
+
+        self.init_sensors()
+        # self.email()
+
     def build(self):
         self.service = None
         # self.start_service()
@@ -93,21 +114,6 @@ class ClientServerApp(App):
                 "service start not implemented on this platform"
             )
 
-    def stop_service(self):
-        if self.service:
-            if platform == "android":
-                self.service.stop(self.mActivity)
-            elif platform in ('linux', 'linux2', 'macos', 'win'):
-                # The below method will not work. 
-                # Need to develop a method like 
-                # https://www.oreilly.com/library/view/python-cookbook/0596001673/ch06s03.html
-                self.service.stop()
-            else:
-            	raise NotImplementedError(
-                	"service start not implemented on this platform"
-            	)
-            self.service = None
-
     def send(self, *args):
         self.client.send_message(b'/ping', [])
 
@@ -118,6 +124,51 @@ class ClientServerApp(App):
     def date(self, message):
         if self.root:
             self.root.ids.date.text = message.decode('utf8')
+
+    def init_sensors(self):
+        """ setup sensors """
+        try:
+            accelerometer.enable()
+
+        except:
+            print('cant enable accelerometer')
+
+        # setup timer to update sensors
+        Clock.schedule_interval(self.save_sensors, 1.0/60.0)
+
+    def save_sensors(self, dt):
+        """ write sensors' data to txt file """
+        try:
+            accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
+                                     + str(round(accelerometer.acceleration[1], 4))\
+                                     + ',' + str(round(accelerometer.acceleration[2], 4))
+            self.txt = 'accelerometer: ' + accelerometer_txt
+
+            self.save(self.txt)
+
+        except:
+            print('cant read sensors')
+
+    def save(self, data):
+        now = datetime.utcnow()
+        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+
+        # # Define upload and output folders
+        # UPLOAD_FOLDER = date_time
+        # send_flag = False
+        #
+        # if not os.path.exists(UPLOAD_FOLDER) and not send_flag:
+        #     os.makedirs(os.path.join(UPLOAD_FOLDER))
+
+        with open('data.txt', mode='a') as f:
+            f.writelines(f"{date_time}, {data}\n")
+            print("ADDED sensors data!")
+
+    # def email(self):
+    #     try:
+    #         email.send(recipient='yarin1997udi@gmail.com', subject='Thanks!', text='Enjoyed your lesson')
+    #     except:
+    #         print('cant email')
 
 
 if __name__ == '__main__':
