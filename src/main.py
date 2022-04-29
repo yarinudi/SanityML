@@ -15,7 +15,7 @@ from jnius import autoclass
 from oscpy.client import OSCClient
 from oscpy.server import OSCThreadServer
 
-from plyer import email, accelerometer
+from plyer import accelerometer
 from multiprocessing.dummy import Process
 
 SERVICE_NAME = u'{packagename}.Service{servicename}'.format(
@@ -95,24 +95,11 @@ class ClientServerApp(App):
                 print("ADDED uid!")
 
             self.init_sensors()
-            print('Started service successfully !')
 
         else:
             raise NotImplementedError(
                 "service start not implemented on this platform"
             )
-
-    def send(self, *args):
-        self.client.send_message(b'/ping', [])
-        self.email()
-
-    def display_message(self, message):
-        if self.root:
-            self.root.ids.label.text += '{}\n'.format(message.decode('utf8'))
-
-    def date(self, message):
-        if self.root:
-            self.root.ids.date.text = message.decode('utf8')
 
     def init_sensors(self):
         """ setup sensors """
@@ -153,12 +140,6 @@ class ClientServerApp(App):
         with open('data.txt', mode='a') as f:
             f.writelines(f"{date_time}, {data}\n")
             print(f"ADDED sensors data! \n {date_time}, {data}\n")
-
-    def email(self):
-        try:
-            email.send(recipient='yarin1997udi@gmail.com', subject='Thanks!', text='Enjoyed your lesson')
-        except:
-            print('cant email')
 
 
 if __name__ == '__main__':
