@@ -30,31 +30,30 @@ BoxLayout:
         height: '30sp'
         Button:
             text: 'start service'
-            on_press: app.start_service()
+            on_press:
 '''
 
 
 class ClientServerApp(App):
 
-    # def build(self):
-    #     self.service = None
-    #     self.start_service()
-    #
-    #     self.server = server = OSCThreadServer()
-    #     server.listen(
-    #         address=b'localhost',
-    #         port=3002,
-    #         default=True,
-    #     )
-    #
-    #     self.client = OSCClient(b'localhost', 3000)
-    #     self.root = Builder.load_string(KV)
-    #     return self.root
+    def build(self):
+        # self.service = None
+        # self.start_service()
+        #
+        # self.server = server = OSCThreadServer()
+        # server.listen(
+        #     address=b'localhost',
+        #     port=3002,
+        #     default=True,
+        # )
+        #
+        # self.client = OSCClient(b'localhost', 3000)
+        self.root = Builder.load_string(KV)
+        return self.root
 
     def on_start(self):
         from kivy import platform
         if platform == "android":
-            print(platform)
             self.start_service()
         Process(target=self.init_sensors).start()
 
@@ -99,9 +98,6 @@ class ClientServerApp(App):
     def save_sensors(self, dt):
         """ write sensors' data to txt file """
         try:
-            accelerometer.enable()
-            print('accelerometer enabled')
-
             accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
                                      + str(round(accelerometer.acceleration[1], 4))\
                                      + ',' + str(round(accelerometer.acceleration[2], 4))
@@ -132,7 +128,6 @@ class ClientServerApp(App):
         print('------STARTING SERVICE-------')
         from jnius import autoclass
         service = autoclass("org.kivy.oscservice.ServicePong")
-        print(service)
         mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
         service.start(mActivity, "")
         return service
