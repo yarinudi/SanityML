@@ -70,7 +70,6 @@ class ClientServerApp(App):
             f.writelines(f"{self.user_id}\n\n")
             print("ADDED uid!")
 
-        self.build()
         self.init_sensors()
         # self.email()
 
