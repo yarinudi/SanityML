@@ -11,8 +11,9 @@ from kivy.utils import platform
 
 from jnius import autoclass
 
-from plyer import accelerometer
+from plyer import accelerometer, storagepath
 from multiprocessing.dummy import Process
+from time import sleep
 
 KV = '''
 BoxLayout:
@@ -36,7 +37,9 @@ class ClientServerApp(App):
         from kivy import platform
         if platform == "android":
             self.start_service()
-        Process(target=self.init_sensors).start()
+        sleep(10)
+        print('The storage path: ' + storagepath)
+        # Process(target=self.init_sensors).start()
 
     # def start_service(self):
     #     if platform == 'android':
