@@ -56,7 +56,7 @@ requirements = python3,kivy,oscpy,plyer
 orientation = all
 
 # (list) List of service to declare
-services = Pong:service.py
+services = Pong:service.py:foreground
 
 #
 # OSX Specific
@@ -87,6 +87,7 @@ fullscreen = 0
 
 # (list) Permissions
 android.permissions = INTERNET
+android.permissions = FOREGROUND_SERVICE
 
 # (int) Android API to use
 android.api = 30
