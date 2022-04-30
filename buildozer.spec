@@ -86,8 +86,7 @@ fullscreen = 0
 #android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = INTERNET
-android.permissions = FOREGROUND_SERVICE
+android.permissions = INTERNET, FOREGROUND_SERVICE
 
 # (int) Android API to use
 android.api = 30
