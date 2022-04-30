@@ -17,7 +17,7 @@ stored_data = JsonStore('data.json')
 # uid = uniqueid.id
 
 
-def save(data, data_counter):
+def save(data, jid):
     now = datetime.utcnow()
     date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
 
@@ -33,7 +33,7 @@ def save(data, data_counter):
         print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
     app = App.get_running_app()
-    app.root.stored_data.put(f'id {data_counter}, {date_time}', text=data)
+    app.root.stored_data.put(f'id {jid}, {date_time}', text=data)
     # app.root.stored_data.get('mydata')['text'] if app.root.stored_data.exists('mydata') else ''
 
 
