@@ -27,10 +27,10 @@ def save(data, jid):
     #
     # if not os.path.exists(UPLOAD_FOLDER) and not send_flag:
     #     os.makedirs(os.path.join(UPLOAD_FOLDER))
-
-    with open('data.txt', mode='a') as f:
-        f.writelines(f"{date_time}, {data}\n")
-        print(f"ADDED sensors data! \n {date_time}, {data}\n")
+    #
+    # with open('data.txt', mode='a') as f:
+    #     f.writelines(f"{date_time}, {data}\n")
+    #     print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
     app = App.get_running_app()
     app.root.stored_data.put(f'id {jid}, {date_time}', text=data)
@@ -38,6 +38,7 @@ def save(data, jid):
 
 
 data_counter = 0
+
 while True:
     print("service running.....")
     sleep(5)
@@ -47,42 +48,42 @@ while True:
         print('accelerometer enabled')
 
         accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
-                                 + str(round(accelerometer.acceleration[1], 4))\
-                                 + ',' + str(round(accelerometer.acceleration[2], 4))
+                            + str(round(accelerometer.acceleration[1], 4))\
+                            + ',' + str(round(accelerometer.acceleration[2], 4))
         txt = ';accelerometer: ' + accelerometer_txt
 
     except:
-        print('cant read accelerometer')
+        txt = txt + 'cant read accelerometer'
 
     try:
 
         barometer.enable()
         print('barometer enabled')
         barometer_txt = str(round(barometer.pressure, 4))
-        txt = '; barometer: ' + barometer_txt
+        txt = txt + '; barometer: ' + barometer_txt
 
     except:
-        print('cant read barometer')
+        txt = txt + 'cant read barometer'
 
     try:
 
         battery.enable()
         print('battery enabled')
         battery_txt = str(battery.isCharge) + str(round(battery.percentage, 4))
-        txt = '; battery: ' + battery_txt
+        txt = txt + '; battery: ' + battery_txt
 
     except:
-        print('cant read battery')
+        txt = txt + 'cant read battery'
 
     try:
 
         brightness.enable()
         print('brightness enabled')
         brightness_txt = str(brightness.current_level())
-        txt = '; brightness: ' + brightness_txt
+        txt = txt + '; brightness: ' + brightness_txt
 
     except:
-        print('cant read brightness')
+        txt = txt + 'cant read brightness'
 
     try:
 
@@ -91,10 +92,10 @@ while True:
         gyroscope_txt = str(round(gyroscope.orientation[0], 4)) + ',' \
                                  + str(round(gyroscope.orientation[1], 4))\
                                  + ',' + str(round(gyroscope.orientation[2], 4))
-        txt = '; gyroscope: ' + gyroscope_txt
+        txt = txt + '; gyroscope: ' + gyroscope_txt
 
     except:
-        print('cant read gyroscope')
+        txt = txt + 'cant read gyroscope'
 
     save(txt, data_counter)
 
