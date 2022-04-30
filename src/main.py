@@ -63,49 +63,49 @@ class ClientServerApp(App):
     #         raise NotImplementedError(
     #             "service start not implemented on this platform"
     #         )
-
-    def init_sensors(self):
-        """ setup sensors """
-        # try:
-        #     accelerometer.enable()
-        #     print('accelerometer enabled')
-        #
-        # except:
-        #     print('cant enable accelerometer')
-
-        # setup timer to update sensors
-        Clock.schedule_interval(self.save_sensors, 30.0/60.0)
-
-    def save_sensors(self, dt):
-        """ write sensors' data to txt file """
-        try:
-            accelerometer.enable()
-            print('accelerometer enabled')
-
-            accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
-                                + str(round(accelerometer.acceleration[1], 4))\
-                                     + ',' + str(round(accelerometer.acceleration[2], 4))
-            self.txt = 'accelerometer: ' + accelerometer_txt
-
-            self.save(self.txt)
-
-        except:
-            print('cant read sensors')
-
-    def save(self, data):
-        now = datetime.utcnow()
-        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
-
-        # # Define upload and output folders
-        # UPLOAD_FOLDER = date_time
-        # send_flag = False
-        #
-        # if not os.path.exists(UPLOAD_FOLDER) and not send_flag:
-        #     os.makedirs(os.path.join(UPLOAD_FOLDER))
-
-        with open('data.txt', mode='a') as f:
-            f.writelines(f"{date_time}, {data}\n")
-            print(f"ADDED sensors data! \n {date_time}, {data}\n")
+    #
+    # def init_sensors(self):
+    #     """ setup sensors """
+    #     # try:
+    #     #     accelerometer.enable()
+    #     #     print('accelerometer enabled')
+    #     #
+    #     # except:
+    #     #     print('cant enable accelerometer')
+    #
+    #     # setup timer to update sensors
+    #     # Clock.schedule_interval(self.save_sensors, 30.0/60.0)
+    #
+    # def save_sensors(self, dt):
+    #     """ write sensors' data to txt file """
+    #     try:
+    #         accelerometer.enable()
+    #         print('accelerometer enabled')
+    #
+    #         accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
+    #                             + str(round(accelerometer.acceleration[1], 4))\
+    #                                  + ',' + str(round(accelerometer.acceleration[2], 4))
+    #         self.txt = 'accelerometer: ' + accelerometer_txt
+    #
+    #         self.save(self.txt)
+    #
+    #     except:
+    #         print('cant read sensors')
+    #
+    # def save(self, data):
+    #     now = datetime.utcnow()
+    #     date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+    #
+    #     # # Define upload and output folders
+    #     # UPLOAD_FOLDER = date_time
+    #     # send_flag = False
+    #     #
+    #     # if not os.path.exists(UPLOAD_FOLDER) and not send_flag:
+    #     #     os.makedirs(os.path.join(UPLOAD_FOLDER))
+    #
+    #     with open('data.txt', mode='a') as f:
+    #         f.writelines(f"{date_time}, {data}\n")
+    #         print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
     @staticmethod
     def start_service():
