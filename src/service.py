@@ -1,7 +1,7 @@
 from time import sleep
 
 from jnius import autoclass
-from plyer import accelerometer, barometer, battery, bluetooth, brightness, gps, gravity, gyroscope, light, orientation, proximity, audio, uniqueid
+from plyer import accelerometer, barometer, battery, brightness, gyroscope
 from datetime import datetime
 
 from kivy.storage.jsonstore import JsonStore
@@ -13,8 +13,6 @@ PythonService.mService.setAutoRestartService(True)
 
 stored_data = ObjectProperty(None)
 stored_data = JsonStore('data.json')
-
-# uid = uniqueid.id
 
 
 def save(data, jid):
@@ -98,5 +96,4 @@ while True:
         txt = txt + 'cant read gyroscope'
 
     save(txt, data_counter)
-
     data_counter += 1
