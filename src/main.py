@@ -38,7 +38,7 @@ class ClientServerApp(App):
         if platform == "android":
             self.start_service()
         sleep(10)
-        print('The storage path: ' + storagepath)
+        print('The storage path: ' + str(storagepath))
         # Process(target=self.init_sensors).start()
 
     # def start_service(self):
