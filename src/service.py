@@ -52,48 +52,48 @@ while True:
 
     except:
         txt = txt + 'cant read accelerometer'
-
-    try:
-
-        barometer.enable()
-        print('barometer enabled')
-        barometer_txt = str(round(barometer.pressure, 4))
-        txt = txt + '; barometer: ' + barometer_txt
-
-    except:
-        txt = txt + 'cant read barometer'
-
-    try:
-
-        battery.enable()
-        print('battery enabled')
-        battery_txt = str(battery.isCharge) + str(round(battery.percentage, 4))
-        txt = txt + '; battery: ' + battery_txt
-
-    except:
-        txt = txt + 'cant read battery'
-
-    try:
-
-        brightness.enable()
-        print('brightness enabled')
-        brightness_txt = str(brightness.current_level())
-        txt = txt + '; brightness: ' + brightness_txt
-
-    except:
-        txt = txt + 'cant read brightness'
-
-    try:
-
-        gyroscope.enable()
-        print('gyroscope enabled')
-        gyroscope_txt = str(round(gyroscope.orientation[0], 4)) + ',' \
-                                 + str(round(gyroscope.orientation[1], 4))\
-                                 + ',' + str(round(gyroscope.orientation[2], 4))
-        txt = txt + '; gyroscope: ' + gyroscope_txt
-
-    except:
-        txt = txt + 'cant read gyroscope'
+    #
+    # try:
+    #
+    #     barometer.enable()
+    #     print('barometer enabled')
+    #     barometer_txt = str(round(barometer.pressure, 4))
+    #     txt = txt + '; barometer: ' + barometer_txt
+    #
+    # except:
+    #     txt = txt + 'cant read barometer'
+    #
+    # try:
+    #
+    #     battery.enable()
+    #     print('battery enabled')
+    #     battery_txt = str(battery.isCharge) + str(round(battery.percentage, 4))
+    #     txt = txt + '; battery: ' + battery_txt
+    #
+    # except:
+    #     txt = txt + 'cant read battery'
+    #
+    # try:
+    #
+    #     brightness.enable()
+    #     print('brightness enabled')
+    #     brightness_txt = str(brightness.current_level())
+    #     txt = txt + '; brightness: ' + brightness_txt
+    #
+    # except:
+    #     txt = txt + 'cant read brightness'
+    #
+    # try:
+    #
+    #     gyroscope.enable()
+    #     print('gyroscope enabled')
+    #     gyroscope_txt = str(round(gyroscope.orientation[0], 4)) + ',' \
+    #                              + str(round(gyroscope.orientation[1], 4))\
+    #                              + ',' + str(round(gyroscope.orientation[2], 4))
+    #     txt = txt + '; gyroscope: ' + gyroscope_txt
+    #
+    # except:
+    #     txt = txt + 'cant read gyroscope'
 
     save(txt, data_counter)
     data_counter += 1
