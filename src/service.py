@@ -31,7 +31,7 @@ def save(data, jid):
 
     # app = App.get_running_app()
     # app.root.\
-    stored_data.put(f'id {jid}, {date_time}', text=data)
+    stored_data.put('data', text=data)
     # app.root.stored_data.get('mydata')['text'] if app.root.stored_data.exists('mydata') else ''
 
 
