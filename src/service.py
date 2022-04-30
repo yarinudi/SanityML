@@ -11,7 +11,6 @@ from kivy.app import App
 PythonService = autoclass('org.kivy.android.PythonService')
 PythonService.mService.setAutoRestartService(True)
 
-stored_data = ObjectProperty(None)
 stored_data = JsonStore('data.json')
 
 
