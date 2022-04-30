@@ -30,7 +30,7 @@ def save(data, jid):
     #     print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
     app = App.get_running_app()
-    app.root.stored_data.put(f'id {jid}, {date_time}', text=data)
+    app.root.stored_data.put('mydata', text=data)
     # app.root.stored_data.get('mydata')['text'] if app.root.stored_data.exists('mydata') else ''
 
 
