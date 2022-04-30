@@ -11,16 +11,8 @@ from kivy.utils import platform
 
 from jnius import autoclass
 
-from oscpy.client import OSCClient
-from oscpy.server import OSCThreadServer
-
 from plyer import accelerometer
 from multiprocessing.dummy import Process
-
-# SERVICE_NAME = u'{packagename}.Service{servicename}'.format(
-#     packagename=u'org.kivy.oscservice',
-#     servicename=u'Pong'
-# )
 
 KV = '''
 BoxLayout:
@@ -37,17 +29,6 @@ BoxLayout:
 class ClientServerApp(App):
 
     def build(self):
-        # self.service = None
-        # self.start_service()
-        #
-        # self.server = server = OSCThreadServer()
-        # server.listen(
-        #     address=b'localhost',
-        #     port=3002,
-        #     default=True,
-        # )
-        #
-        # self.client = OSCClient(b'localhost', 3000)
         self.root = Builder.load_string(KV)
         return self.root
 
@@ -102,7 +83,7 @@ class ClientServerApp(App):
             print('accelerometer enabled')
 
             accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
-                                     + str(round(accelerometer.acceleration[1], 4))\
+                                + str(round(accelerometer.acceleration[1], 4))\
                                      + ',' + str(round(accelerometer.acceleration[2], 4))
             self.txt = 'accelerometer: ' + accelerometer_txt
 

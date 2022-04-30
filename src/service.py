@@ -1,14 +1,23 @@
 from time import sleep
 
 from jnius import autoclass
-from plyer import accelerometer
+from plyer import accelerometer, barometer, battery, bluetooth, brightness, gps, gravity, gyroscope, light, orientation, proximity, audio, uniqueid
 from datetime import datetime
+
+from kivy.storage.jsonstore import JsonStore
+from kivy.properties import ObjectProperty
+from kivy.app import App
 
 PythonService = autoclass('org.kivy.android.PythonService')
 PythonService.mService.setAutoRestartService(True)
 
+stored_data = ObjectProperty(None)
+stored_data = JsonStore('data.json')
 
-def save(data):
+# uid = uniqueid.id
+
+
+def save(data, data_counter):
     now = datetime.utcnow()
     date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
 
@@ -23,21 +32,70 @@ def save(data):
         f.writelines(f"{date_time}, {data}\n")
         print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
+    app = App.get_running_app()
+    app.root.stored_data.put(f'id {data_counter}', text=data)
+    # app.root.stored_data.get('mydata')['text'] if app.root.stored_data.exists('mydata') else ''
 
+
+data_counter = 0
 while True:
     print("service running.....")
     sleep(5)
     try:
+
         accelerometer.enable()
         print('accelerometer enabled')
 
         accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
                                  + str(round(accelerometer.acceleration[1], 4))\
                                  + ',' + str(round(accelerometer.acceleration[2], 4))
-        txt = 'accelerometer: ' + accelerometer_txt
-
-        save(txt)
+        txt = ';accelerometer: ' + accelerometer_txt
 
     except:
-        print('cant read sensors')
+        print('cant read accelerometer')
 
+    try:
+
+        barometer.enable()
+        print('barometer enabled')
+        barometer_txt = str(round(barometer.pressure, 4))
+        txt = '; barometer: ' + barometer_txt
+
+    except:
+        print('cant read barometer')
+
+    try:
+
+        battery.enable()
+        print('battery enabled')
+        battery_txt = str(battery.isCharge) + str(round(battery.percentage, 4))
+        txt = '; battery: ' + battery_txt
+
+    except:
+        print('cant read battery')
+
+    try:
+
+        brightness.enable()
+        print('brightness enabled')
+        brightness_txt = str(brightness.current_level())
+        txt = '; brightness: ' + brightness_txt
+
+    except:
+        print('cant read brightness')
+
+    try:
+
+        gyroscope.enable()
+        print('gyroscope enabled')
+        gyroscope_txt = str(round(gyroscope.orientation[0], 4)) + ',' \
+                                 + str(round(gyroscope.orientation[1], 4))\
+                                 + ',' + str(round(gyroscope.orientation[2], 4))
+        txt = '; gyroscope: ' + gyroscope_txt
+
+    except:
+        print('cant read gyroscope')
+
+    save(txt, data_counter)
+
+    data_counter += 1
