@@ -42,7 +42,7 @@ class ClientServerApp(App):
         if platform == "android":
             self.start_service()
         print('The application path: ' + str(storagepath.get_application_dir()))
-        print('The storage path: ' + str(storagepath.get_external_storage_dir()))
+        print('The storage path: ' + str(storagepath.get_documents_dir()))
         Process(target=self.init_sensors).start()
 
     def init_sensors(self):
@@ -79,22 +79,22 @@ class ClientServerApp(App):
         try:
 
             # battery.enable()
-            # print('battery enabled')
-            battery_txt = str(battery.status.get('isCharge')) + str(round(battery.status.get('percentage'), 4))
+            print('battery enabled')
+            battery_txt = str(battery.status.get('isCharge')) + ' ' + str(round(battery.status.get('percentage'), 4))
             self.txt += '; battery: ' + battery_txt
 
         except:
             self.txt += '; cant read battery'
 
-        try:
-
-            # brightness.enable()
-            # print('brightness enabled')
-            brightness_txt = str(brightness.current_level())
-            self.txt += '; brightness: ' + brightness_txt
-
-        except:
-            self.txt += '; cant read brightness'
+        # try:
+        #
+        #     # brightness.enable()
+        #     # print('brightness enabled')
+        #     brightness_txt = str(brightness.current_level())
+        #     self.txt += '; brightness: ' + brightness_txt
+        #
+        # except:
+        #     self.txt += '; cant read brightness'
 
         try:
 
