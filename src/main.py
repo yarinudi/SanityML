@@ -41,7 +41,8 @@ class ClientServerApp(App):
         from kivy import platform
         if platform == "android":
             self.start_service()
-        print('The storage path: ' + str(storagepath))
+        print('The application path: ' + str(storagepath.get_application_dir()))
+        print('The storage path: ' + str(storagepath.get_external_storage_dir()))
         Process(target=self.init_sensors).start()
 
     def init_sensors(self):
@@ -63,7 +64,7 @@ class ClientServerApp(App):
             self.txt += 'accelerometer: ' + accelerometer_txt
 
         except:
-            self.text += '; cant read accelerometer'
+            self.txt += '; cant read accelerometer'
 
         try:
 
