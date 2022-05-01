@@ -58,7 +58,7 @@ def save_sensors(app):
     except:
         txt += '; cant read gyroscope'
 
-    save(txt, app)
+    # save(txt, app)
 
 
 # def save(data, app):
