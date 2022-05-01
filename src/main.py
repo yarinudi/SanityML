@@ -25,7 +25,7 @@ BoxLayout:
         height: '30sp'
         Button:
             text: 'start service'
-            on_press:
+            on_press: self.show_store()
 '''
 
 
@@ -127,12 +127,17 @@ class ClientServerApp(App):
         now = datetime.utcnow()
         date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
 
-        with open('data.txt', mode='a') as f:
-            f.writelines(f"{date_time}, {data}\n")
+        # with open('data.txt', mode='a') as f:
+        #     f.writelines(f"{date_time}, {data}\n")
 
         self.stored_data.put('cur_data', date=date_time, features=data)
 
         print(f"ADDED sensors data! \n {date_time}, {data}\n")
+
+    def show_store(self):
+        for key in self.stored_data:
+            print(key)
+            print(self.stored_data[key])
 
     @staticmethod
     def start_service():
