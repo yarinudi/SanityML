@@ -25,7 +25,7 @@ BoxLayout:
         height: '30sp'
         Button:
             text: 'start service'
-            on_press: self.show_store()
+            on_press: app.disp_store()
 '''
 
 
@@ -134,7 +134,7 @@ class ClientServerApp(App):
 
         print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
-    def show_store(self):
+    def disp_store(self):
         for key in self.stored_data:
             print(key)
             print(self.stored_data[key])
