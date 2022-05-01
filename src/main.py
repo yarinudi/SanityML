@@ -11,7 +11,7 @@ from kivy.utils import platform
 
 from jnius import autoclass
 
-from plyer import accelerometer, storagepath
+from plyer import accelerometer, barometer, battery, brightness, gyroscope, storagepath
 from multiprocessing.dummy import Process
 
 from kivy.properties import ObjectProperty
@@ -50,7 +50,9 @@ class ClientServerApp(App):
         Clock.schedule_interval(self.save_sensors, 30.0/60.0)
 
     def save_sensors(self, dt):
-        """ write sensors' data to txt file """
+        """ write sensors' data to json file """
+        self.txt = ''
+
         try:
             accelerometer.enable()
             print('accelerometer enabled')
@@ -58,12 +60,54 @@ class ClientServerApp(App):
             accelerometer_txt = str(round(accelerometer.acceleration[0], 4)) + ',' \
                                 + str(round(accelerometer.acceleration[1], 4))\
                                      + ',' + str(round(accelerometer.acceleration[2], 4))
-            self.txt = 'accelerometer: ' + accelerometer_txt
-
-            self.save(self.txt)
+            self.txt += 'accelerometer: ' + accelerometer_txt
 
         except:
-            print('cant read sensors')
+            self.text += '; cant read accelerometer'
+
+        try:
+
+            barometer.enable()
+            print('barometer enabled')
+            barometer_txt = str(round(barometer.pressure, 4))
+            self.txt += '; barometer: ' + barometer_txt
+
+        except:
+            self.txt += '; cant read barometer'
+
+        try:
+
+            battery.enable()
+            print('battery enabled')
+            battery_txt = str(battery.isCharge) + str(round(battery.percentage, 4))
+            self.txt += '; battery: ' + battery_txt
+
+        except:
+            self.txt += 'cant read battery'
+
+        try:
+
+            brightness.enable()
+            print('brightness enabled')
+            brightness_txt = str(brightness.current_level())
+            self.txt += '; brightness: ' + brightness_txt
+
+        except:
+            self.txt += 'cant read brightness'
+
+        try:
+
+            gyroscope.enable()
+            print('gyroscope enabled')
+            gyroscope_txt = str(round(gyroscope.orientation[0], 4)) + ',' \
+                                     + str(round(gyroscope.orientation[1], 4))\
+                                     + ',' + str(round(gyroscope.orientation[2], 4))
+            self.txt += '; gyroscope: ' + gyroscope_txt
+
+        except:
+            self.txt += 'cant read gyroscope'
+
+        self.save(self.txt)
 
     def save(self, data):
         now = datetime.utcnow()
