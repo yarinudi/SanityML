@@ -13,7 +13,9 @@ from jnius import autoclass
 
 from plyer import accelerometer, storagepath
 from multiprocessing.dummy import Process
-from time import sleep
+
+from kivy.properties import ObjectProperty
+from kivy.storage.jsonstore import JsonStore
 
 KV = '''
 BoxLayout:
@@ -28,6 +30,11 @@ BoxLayout:
 
 
 class ClientServerApp(App):
+    stored_data = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.stored_data = JsonStore('data.json')
 
     def build(self):
         self.root = Builder.load_string(KV)
@@ -37,19 +44,11 @@ class ClientServerApp(App):
         from kivy import platform
         if platform == "android":
             self.start_service()
-        sleep(5)
         print('The storage path: ' + str(storagepath))
         Process(target=self.init_sensors).start()
 
     def init_sensors(self):
         """ setup sensors """
-        # try:
-        #     accelerometer.enable()
-        #     print('accelerometer enabled')
-        #
-        # except:
-        #     print('cant enable accelerometer')
-
         # setup timer to update sensors
         Clock.schedule_interval(self.save_sensors, 30.0/60.0)
 
@@ -76,6 +75,8 @@ class ClientServerApp(App):
         with open('data.txt', mode='a') as f:
             f.writelines(f"{date_time}, {data}\n")
             print(f"ADDED sensors data! \n {date_time}, {data}\n")
+
+        self.stored_data.put('data', text=data)
 
     @staticmethod
     def start_service():
