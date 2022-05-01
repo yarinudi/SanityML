@@ -77,6 +77,6 @@ while True:
     sleep(5)
 
     cur_app = App.get_running_app()
-    cur_app.root.stored_data.put(f'{cur_app.jid+99999}', date='date_time', features='data')
+    cur_app.root.stored_data.put(f'{1111111111111111}', date='date_time', features='data')
     # save_sensors(cur_app)
     print('----Saved sensors successfully-------')
