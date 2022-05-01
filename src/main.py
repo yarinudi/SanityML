@@ -11,7 +11,7 @@ from kivy.utils import platform
 
 from jnius import autoclass
 
-from plyer import accelerometer, barometer, battery, brightness, gyroscope, storagepath
+from plyer import accelerometer, barometer, battery, brightness, gyroscope, gps, storagepath
 from multiprocessing.dummy import Process
 
 from kivy.properties import ObjectProperty
@@ -78,23 +78,23 @@ class ClientServerApp(App):
 
         try:
 
-            battery.enable()
-            print('battery enabled')
-            battery_txt = str(battery.isCharge) + str(round(battery.percentage, 4))
+            # battery.enable()
+            # print('battery enabled')
+            battery_txt = str(battery.status.get('isCharge')) + str(round(battery.status.get('percentage'), 4))
             self.txt += '; battery: ' + battery_txt
 
         except:
-            self.txt += 'cant read battery'
+            self.txt += '; cant read battery'
 
         try:
 
-            brightness.enable()
-            print('brightness enabled')
+            # brightness.enable()
+            # print('brightness enabled')
             brightness_txt = str(brightness.current_level())
             self.txt += '; brightness: ' + brightness_txt
 
         except:
-            self.txt += 'cant read brightness'
+            self.txt += '; cant read brightness'
 
         try:
 
@@ -106,7 +106,20 @@ class ClientServerApp(App):
             self.txt += '; gyroscope: ' + gyroscope_txt
 
         except:
-            self.txt += 'cant read gyroscope'
+            self.txt += '; cant read gyroscope'
+
+        # try:
+        #
+        #     gps.configure(self.save)
+        #     gps.start(minTime=1000, minDistance=1)
+        #     print('gps started')
+        #     gyroscope_txt = str(round(gyroscope.orientation[0], 4)) + ',' \
+        #                              + str(round(gyroscope.orientation[1], 4))\
+        #                              + ',' + str(round(gyroscope.orientation[2], 4))
+        #     self.txt += '; gyroscope: ' + gyroscope_txt
+        #
+        # except:
+        #     self.txt += '; cant read gyroscope'
 
         self.save(self.txt)
 
