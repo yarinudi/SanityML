@@ -32,11 +32,8 @@ BoxLayout:
 class ClientServerApp(App):
     stored_data = ObjectProperty(None)
 
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
-        self.stored_data = JsonStore('data.json')
-
     def build(self):
+        self.stored_data = JsonStore('data.json')
         self.root = Builder.load_string(KV)
         return self.root
 
