@@ -74,9 +74,10 @@ class ClientServerApp(App):
 
         with open('data.txt', mode='a') as f:
             f.writelines(f"{date_time}, {data}\n")
-            print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
-        self.stored_data.put('data', text=data)
+        self.stored_data.put('cur_data', date=date_time, features=data)
+
+        print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
     @staticmethod
     def start_service():
