@@ -1,11 +1,9 @@
 from time import sleep
 
 from jnius import autoclass
-from plyer import accelerometer, barometer, battery, brightness, gyroscope, gps, storagepath
+from plyer import accelerometer, barometer, battery, brightness, gyroscope, gps
 from datetime import datetime
 
-from kivy.storage.jsonstore import JsonStore
-from kivy.properties import ObjectProperty
 from kivy.app import App
 
 PythonService = autoclass('org.kivy.android.PythonService')
@@ -48,16 +46,6 @@ def save_sensors(app):
     except:
         txt += '; cant read battery'
 
-    # try:
-    #
-    #     # brightness.enable()
-    #     # print('brightness enabled')
-    #     brightness_txt = str(brightness.current_level())
-    #     self.txt += '; brightness: ' + brightness_txt
-    #
-    # except:
-    #     self.txt += '; cant read brightness'
-
     try:
 
         gyroscope.enable()
@@ -70,37 +58,24 @@ def save_sensors(app):
     except:
         txt += '; cant read gyroscope'
 
-    # try:
-    #
-    #     gps.configure(self.save)
-    #     gps.start(minTime=1000, minDistance=1)
-    #     print('gps started')
-    #     gyroscope_txt = str(round(gyroscope.orientation[0], 4)) + ',' \
-    #                              + str(round(gyroscope.orientation[1], 4))\
-    #                              + ',' + str(round(gyroscope.orientation[2], 4))
-    #     self.txt += '; gyroscope: ' + gyroscope_txt
-    #
-    # except:
-    #     self.txt += '; cant read gyroscope'
-
     save(txt, app)
 
 
-def save(data, app):
-    app.jid += 1
-    now = datetime.utcnow()
-    date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
-
-    # with open('data.txt', mode='a') as f:
-    #     f.writelines(f"{date_time}, {data}\n")
-
-    app.root.stored_data.put(f'{app.jid}', date=date_time, features=data)
-
+# def save(data, app):
+#     app.jid += 1
+#     now = datetime.utcnow()
+#     date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+#
+#     # with open('data.txt', mode='a') as f:
+#     #     f.writelines(f"{date_time}, {data}\n")
+#
+#     app.root.stored_data.put(f'{app.jid}', date=date_time, features=data)
+#
 
 while True:
     print("service running.....")
     sleep(5)
 
-    app = App.get_running_app()
-    save_sensors(app)
+    cur_app = App.get_running_app()
+    # save_sensors(cur_app)
     print('----Saved sensors successfully-------')
