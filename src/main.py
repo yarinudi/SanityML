@@ -28,15 +28,14 @@ BoxLayout:
             on_press: app.disp_store()
 '''
 
-global jid
-jid = 0
-
 
 class ClientServerApp(App):
     stored_data = ObjectProperty(None)
+    jid = 0
 
     def build(self):
         self.stored_data = JsonStore('data.json')
+        self.jid = 0
         self.root = Builder.load_string(KV)
         return self.root
 
@@ -127,14 +126,14 @@ class ClientServerApp(App):
         self.save(self.txt)
 
     def save(self, data):
-        jid += 1
+        self.jid += 1
         now = datetime.utcnow()
         date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
 
         # with open('data.txt', mode='a') as f:
         #     f.writelines(f"{date_time}, {data}\n")
 
-        self.stored_data.put(f'{jid}', date=date_time, features=data)
+        self.stored_data.put(f'{self.jid}', date=date_time, features=data)
 
         print(f"ADDED sensors data! \n {date_time}, {data}\n")
 
